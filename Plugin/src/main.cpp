@@ -88,7 +88,7 @@ private:
 		static void Install()
 		{
 			static REL::Relocation<std::uintptr_t> target{ REL::Offset(0x044EC788) };
-			auto _PlayerCharacterSaveGame = target.write_vfunc(0x1A, PlayerCharacterSaveGame);
+			_PlayerCharacterSaveGame = target.write_vfunc(0x1A, PlayerCharacterSaveGame);
 		}
 
 	private:
