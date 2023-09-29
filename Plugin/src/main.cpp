@@ -4,20 +4,20 @@ public:
 	static void Install()
 	{
 		// Disable check
-		hkCheckModsLoaded<0x01493CB4, 0x02ED>::Install();
-		hkCheckModsLoaded<0x01FDAA90, 0x13FE>::Install();
-		hkCheckModsLoaded<0x02336778, 0x005B>::Install();
-		hkCheckModsLoaded<0x023AA58C, 0x03AC>::Install();
-		hkCheckModsLoaded<0x023B0CD8, 0x002F>::Install();
-		hkCheckModsLoaded<0x02577404, 0x1471>::Install();
-		hkCheckModsLoaded<0x02585C3C, 0x1075>::Install();
-		hkCheckModsLoaded<0x029F9AF0, 0x007B>::Install();
+		hkCheckModsLoaded<0x01493684, 0x02ED>::Install();
+		hkCheckModsLoaded<0x01FDA5D0, 0x13FE>::Install();
+		hkCheckModsLoaded<0x023398C8, 0x005B>::Install();
+		hkCheckModsLoaded<0x023AD6CC, 0x03AC>::Install();
+		hkCheckModsLoaded<0x023B3E18, 0x002F>::Install();
+		hkCheckModsLoaded<0x0257A534, 0x1471>::Install();
+		hkCheckModsLoaded<0x02588D6C, 0x1075>::Install();
+		hkCheckModsLoaded<0x029FD5D0, 0x007B>::Install();
 
 		// Disable "$LoadVanillaSaveWithMods" message
-		hkShowLoadVanillaSaveWithMods<0x023A7B04, 0x9F>::Install();
+		hkShowLoadVanillaSaveWithMods<0x023AAC44, 0x9F>::Install();
 
 		// Disable "$UsingConsoleMayDisableAchievements" message
-		hkShowUsingConsoleMayDisableAchievements<0x02877320, 0x67>::Install();
+		hkShowUsingConsoleMayDisableAchievements<0x0287A460, 0x67>::Install();
 
 		// Disable modded flag when saving
 		hkPlayerCharacterSaveGame::Install();
@@ -56,10 +56,10 @@ private:
 	private:
 		static void ShowLoadVanillaSaveWithMods()
 		{
-			static REL::Relocation<std::uint32_t*> dword{ REL::Offset(0x05929114) };
+			static REL::Relocation<std::uint32_t*> dword{ REL::Offset(0x0592C424) };
 			(*dword.get()) &= ~2;
 
-			static REL::Relocation<void (*)(void*, void*, std::int32_t, std::int32_t, void*)> func{ REL::Offset(0x023A7B04) };
+			static REL::Relocation<void (*)(void*, void*, std::int32_t, std::int32_t, void*)> func{ REL::Offset(0x023AAC44) };
 			return func(nullptr, nullptr, 0, 0, nullptr);
 		}
 	};
@@ -87,17 +87,17 @@ private:
 	public:
 		static void Install()
 		{
-			static REL::Relocation<std::uintptr_t> target{ REL::Offset(0x044EC788) };
+			static REL::Relocation<std::uintptr_t> target{ REL::Offset(0x044EF910) };
 			_PlayerCharacterSaveGame = target.write_vfunc(0x1A, PlayerCharacterSaveGame);
 		}
 
 	private:
 		static void PlayerCharacterSaveGame(void* a_this, void* a_buffer)
 		{
-			static REL::Relocation<bool*> hasModded{ REL::Offset(0x05929493) };
+			static REL::Relocation<bool*> hasModded{ REL::Offset(0x0592C7BA) };
 			(*hasModded.get()) = false;
 
-			static REL::Relocation<void**> PlayerCharacter{ REL::Offset(0x055B89E8) };
+			static REL::Relocation<void**> PlayerCharacter{ REL::Offset(0x055BBBB8) };
 			auto flag = RE::stl::adjust_pointer<bool>(*PlayerCharacter.get(), 0x10E6);
 			(*flag) &= ~4;
 
